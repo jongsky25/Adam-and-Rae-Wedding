@@ -21,9 +21,11 @@ for a free charm (by Charms by AA). Photos land in your Google Drive. No server 
 | `assets/` | AR monogram, charm video, Charms by AA logo |
 | `tests/apps-script-test.js` | Offline check of the backend logic |
 
-The printed QR codes point to https://jongsky25.github.io/Adam-and-Rae-Wedding/.
-If the repo is renamed, open the sign's HTML page, paste the new link,
-tap **Update QR**, then **Print / Save PDF**.
+The printed QR codes use the couple's bit.ly QR (`assets/qr-bitly.png`), which opens
+https://bit.ly/AdamRae?r=qr and forwards to the guest page. The short link is also
+printed as text: **bit.ly/AdamRae** (case-sensitive). If the bit.ly link changes, replace
+`assets/qr-bitly.png`, update `SHORT_LINK` in `print/qr.js` and the text in `qr-card.html`,
+then re-export the PDFs.
 
 ## How it works
 
