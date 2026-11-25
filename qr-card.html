@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Table QR Card</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:wght@500;600&family=Jost:wght@300;400;500&display=swap">
+<style>
+/* Printable 4 × 6 in table card. Open on a computer, then print (or Save as PDF) at 100% scale. */
+:root { --paper:#fffdfd; --ink:#3b1d22; --muted:#7d6266; --gold:#893941; --rose:#cb7885; --lime:#d4d994; --olive:#5e6623; }
+* { box-sizing:border-box; }
+@page { size: 4in 6in; margin: 0; }
+body { margin:0; background:#efe9ea; font:400 14px/1.5 "Jost", system-ui, sans-serif; color:var(--ink); display:grid; justify-items:center; gap:16px; padding:24px 16px; }
+.tools { display:flex; flex-wrap:wrap; gap:8px; max-width:4in; width:100%; }
+.tools input { flex:1 1 100%; font:inherit; padding:10px; border:1px solid #c9cec5; border-radius:8px; }
+.tools button { flex:1; font:500 14px "Jost", sans-serif; padding:10px; border:0; border-radius:999px; background:var(--olive); color:#fff; cursor:pointer; }
+.card { width:4in; height:6in; max-width:100%; background:var(--paper); position:relative; padding:.42in .4in .34in; display:flex; flex-direction:column; align-items:center; text-align:center; box-shadow:0 6px 24px rgba(0,0,0,.12); }
+.card::before { content:""; position:absolute; inset:.14in; border:1.5px solid var(--olive); border-radius:50% / 34%; pointer-events:none; }
+.card::after { content:""; position:absolute; inset:.2in; border:.5px solid var(--rose); border-radius:50% / 34%; pointer-events:none; }
+.card { padding-top:.55in !important; padding-bottom:.5in !important; }
+.mono { width:1.25in; aspect-ratio:590/459; background:var(--gold); -webkit-mask:url("assets/monogram.png") center/contain no-repeat; mask:url("assets/monogram.png") center/contain no-repeat; margin-bottom:6px; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.caps { font:600 19px/1 "Cormorant Garamond", serif; letter-spacing:.28em; padding-left:.28em; margin:0; }
+.script { font:400 30px/1 "Pinyon Script", cursive; color:var(--gold); margin:2px 0 0; }
+.sub { font:600 11px "Cormorant Garamond", serif; letter-spacing:.28em; text-transform:uppercase; color:var(--muted); }
+.body { font-size:11.5px; line-height:1.5; max-width:2.8in; margin:8px 0 10px; }
+.qr { width:1.55in; height:1.55in; padding:.08in; background:#fff; }
+.qr svg { width:100%; height:100%; display:block; }
+.perk { max-width:2.5in; margin-top:12px; font-size:11.5px; border-top:1px solid var(--rose); border-bottom:1px solid var(--rose); padding:6px 10px; letter-spacing:.04em; }
+.perk b { color:var(--gold); font-weight:500; }
+.sign { margin-top:auto; font:600 14px/1 "Cormorant Garamond", serif; letter-spacing:.24em; }
+.swatch { display:flex; gap:4px; margin:8px auto 0; justify-content:center; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.swatch i { width:16px; height:6px; border-radius:3px; }
+.sign small { display:block; font:500 12px "Cormorant Garamond", serif; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); margin-top:6px; font-variant-numeric:lining-nums; }
+@media print { body { background:none; padding:0; display:block; } .tools { display:none; } .card { box-shadow:none; } }
+</style>
+</head>
+<body>
+<div class="tools">
+  <input id="url" type="url" value="https://jongsky25.github.io/Adam-and-Rae-Wedding/" aria-label="Upload page link">
+  <button type="button" onclick="render()">Update QR</button>
+  <button type="button" onclick="window.print()">Print card</button>
+</div>
+
+<article class="card">
+  <div class="mono" role="img" aria-label="A R monogram"></div>
+  <h1 class="caps">UPLOAD PICS</h1>
+  <p class="script">from our day</p>
+  <p class="body">Scan to add your photos and videos to our wedding album. We can't wait to see our day through your eyes.</p>
+  <div class="qr" id="qr"></div>
+  <p class="perk">Share a photo · get a <b>free charm</b></p>
+  <div class="sign">ADAM &amp; RAE<small>28.11.26</small><span class="swatch" aria-hidden="true"><i style="background:var(--gold)"></i><i style="background:var(--rose)"></i><i style="background:var(--lime)"></i><i style="background:var(--olive)"></i></span></div>
+</article>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+function render() {
+  const qr = qrcode(0, "M");
+  qr.addData(document.getElementById("url").value.trim());
+  qr.make();
+  const n = qr.getModuleCount(); let d = "";
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) d += `M${c} ${r}h1v1h-1z`;
+  document.getElementById("qr").innerHTML =
+    `<svg viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges" role="img" aria-label="QR code"><path fill="#3b1d22" d="${d}"/></svg>`;
+}
+render();
+</script>
+</body>
+</html>
