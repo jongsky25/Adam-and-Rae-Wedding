@@ -187,7 +187,13 @@ async function start() {
   $("pinErr").textContent = "";
   if (!SCRIPT_URL) { $("pinErr").textContent = "Add the Apps Script link to config.js first."; return; }
   try { await refreshList(true); }
-  catch (e) { $("pinErr").textContent = e.message === "Wrong staff PIN" ? "Wrong PIN. Try again." : "Couldn't reach the album. Check the internet connection."; return; }
+  catch (e) {
+    const m = String(e.message || e);
+    $("pinErr").textContent = m === "Wrong staff PIN" ? "Wrong PIN. Try again."
+      : /Failed to fetch|Load failed|NetworkError|JSON/i.test(m) ? "Couldn't reach the album (" + m + "). Check the internet connection."
+      : "The album replied: " + m;
+    return;
+  }
   try { localStorage.setItem("wps.pin", pin); } catch {}
   $("pinBox").hidden = true;
   if (!list.length) showEmpty(true);
