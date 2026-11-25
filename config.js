@@ -3,7 +3,7 @@
  * After deploying the Google Apps Script, paste its Web app URL (ends in /exec)
  * between the quotes on the next line. Leave it empty to keep preview mode.
  */
-const SCRIPT_URL = "";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZuOam_9346FDhT3z28KG9Di4iGhuQF1A2zAOtH3Sg3YCD4wTB_1KzdLM3XBYoym5R/exec";
 
 const CONFIG = {
   scriptUrl: SCRIPT_URL,
