@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Adam &amp; Rae Charm Station</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=DM+Mono:wght@500&display=swap">
+<style>
+:root { --paper:#fbf7f6; --card:#fff; --ink:#3b1d22; --muted:#7d6266; --line:#eddcdf; --ok:#5e6623; --ok-soft:#f2f4de; --bad:#893941; --bad-soft:#f8e5e8; --gold:#893941; color-scheme:light; }
+@media (prefers-color-scheme: dark) { :root { --paper:#1a1113; --card:#24171a; --ink:#f5e9eb; --muted:#c4a7ac; --line:#3e2a2e; --ok:#c3ca78; --ok-soft:#272a17; --bad:#e48e9c; --bad-soft:#3b1e24; --gold:#b04a55; color-scheme:dark; } }
+* { box-sizing:border-box; }
+[hidden] { display:none !important; }
+body { margin:0; background:var(--paper); color:var(--ink); font:400 16px/1.5 "Jost", system-ui, sans-serif;
+  padding:calc(env(safe-area-inset-top,0px) + 24px) max(16px, env(safe-area-inset-right,0px)) 40px max(16px, env(safe-area-inset-left,0px)); }
+.wrap { max-width:440px; margin:0 auto; display:grid; gap:16px; }
+h1 { margin:0; font-weight:500; font-size:22px; }
+p { margin:0; color:var(--muted); font-size:14px; }
+.card { background:var(--card) linear-gradient(90deg,#893941 0 25%,#cb7885 0 50%,#d4d994 0 75%,#5e6623 0) top/100% 6px no-repeat; padding-top:24px !important; border:1px solid var(--line); border-radius:16px; padding:18px; display:grid; gap:12px; }
+label { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); display:grid; gap:6px; }
+input { font:500 22px "DM Mono", monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:12px; width:100%; }
+input#pin { letter-spacing:.3em; }
+.row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+button { font:500 16px "Jost", sans-serif; border:0; border-radius:999px; padding:14px; cursor:pointer; background:#5e6623; color:#fff; }
+button.alt { background:var(--gold); color:#fff; }
+button[disabled] { opacity:.4; }
+.result { border-radius:14px; padding:16px; display:grid; gap:4px; font-size:15px; }
+.result strong { font-size:20px; }
+.ok { background:var(--ok-soft); color:var(--ok); }
+.bad { background:var(--bad-soft); color:var(--bad); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Stuffy Cute Charms booth</h1>
+  <p>Type the 6-letter code from the guest's slip. Check that the clock on their slip is moving, then tap Give charm.</p>
+  <section class="card">
+    <label for="pin">Staff PIN <input id="pin" type="password" inputmode="numeric" autocomplete="off"></label>
+    <label for="code">Claim code <input id="code" type="text" autocomplete="off" maxlength="7" placeholder="ABC DEF"></label>
+    <div class="row">
+      <button id="checkBtn" type="button">Check</button>
+      <button id="redeemBtn" class="alt" type="button">Give charm</button>
+    </div>
+  </section>
+  <div id="out" class="result" hidden aria-live="polite"></div>
+</main>
+<script src="config.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+try { $("pin").value = sessionStorage.getItem("pin") || ""; } catch {}
+async function go(action) {
+  const out = $("out"); out.hidden = false; out.className = "result"; out.textContent = "Checking…";
+  try { sessionStorage.setItem("pin", $("pin").value); } catch {}
+  if (!SCRIPT_URL) { out.className = "result bad"; out.textContent = "Add the Apps Script URL to config.js first."; return; }
+  try {
+    const res = await fetch(SCRIPT_URL, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" },
+      body: JSON.stringify({ action, pin: $("pin").value, code: $("code").value }) });
+    const d = await res.json();
+    if (!d.ok) throw new Error(d.error);
+    if (!d.found) { out.className = "result bad"; out.innerHTML = "<strong>Code not found</strong><span>Check the letters and try again.</span>"; return; }
+    const who = `${esc(d.name)} · ${d.count} file${d.count == 1 ? "" : "s"}`;
+    if (action === "redeem" && !d.alreadyRedeemed) { out.className = "result ok"; out.innerHTML = `<strong>Give the charm ✓</strong><span>${who}</span>`; }
+    else if (d.redeemed) { out.className = "result bad"; out.innerHTML = `<strong>Already claimed</strong><span>${who} · ${new Date(d.redeemedAt).toLocaleTimeString([], {hour:"numeric", minute:"2-digit"})}</span>`; }
+    else { out.className = "result ok"; out.innerHTML = `<strong>Valid, not yet claimed</strong><span>${who}</span>`; }
+  } catch (e) { out.className = "result bad"; out.textContent = e.message || "Couldn't reach the server. Check the signal."; }
+}
+const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+$("checkBtn").onclick = () => go("verify");
+$("redeemBtn").onclick = () => go("redeem");
+</script>
+</body>
+</html>

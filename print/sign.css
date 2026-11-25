@@ -1,0 +1,22 @@
+/* Shared print styles for Adam & Rae signs. Sizes are in inches so they print to scale. */
+:root { --paper:#fffdfd; --ink:#3b1d22; --muted:#7d6266; --berry:#893941; --rose:#cb7885; --lime:#d4d994; --olive:#5e6623; --rose-soft:#f8e5e8; --lime-soft:#f2f4de; }
+* { box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+html, body { margin:0; background:#efe9ea; }
+body { display:grid; justify-items:center; gap:16px; padding:24px 16px; font-family:"Jost", "Avenir Next", system-ui, sans-serif; color:var(--ink); }
+.tools { display:flex; flex-wrap:wrap; gap:8px; width:min(100%, 520px); }
+.tools input { flex:1 1 100%; font:inherit; padding:10px; border:1px solid #d9c9cc; border-radius:8px; }
+.tools button { flex:1; font:500 14px "Jost", sans-serif; padding:10px; border:0; border-radius:999px; background:var(--olive); color:#fff; cursor:pointer; }
+.sheet { position:relative; background:var(--paper); display:flex; flex-direction:column; align-items:center; text-align:center; box-shadow:0 6px 24px rgba(59,29,34,.15); overflow:hidden; }
+.sheet .oval-a, .sheet .oval-b { position:absolute; pointer-events:none; border-radius:50% / 36%; }
+.stripe { position:absolute; left:0; right:0; top:0; display:flex; }
+.stripe i { flex:1; }
+.stripe.bottom { top:auto; bottom:0; }
+.mono { aspect-ratio:590/459; background:var(--berry); -webkit-mask:url("../assets/monogram.png") center/contain no-repeat; mask:url("../assets/monogram.png") center/contain no-repeat; }
+.caps { font-family:"Cormorant Garamond", Garamond, "Times New Roman", serif; font-weight:600; text-transform:uppercase; margin:0; font-variant-numeric:lining-nums; }
+.script { font-family:"Pinyon Script", "Snell Roundhand", cursive; font-weight:400; color:var(--berry); margin:0; line-height:1; }
+.leaf { color:var(--olive); display:block; }
+.qr { background:#fff; }
+.qr svg { width:100%; height:100%; display:block; }
+.swatches { display:flex; justify-content:center; }
+.swatches i { display:block; }
+@media print { html, body { background:none; } body { display:block; padding:0; } .tools { display:none; } .sheet { box-shadow:none; } }

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap">
+<link rel="stylesheet" href="sign.css">
+<title>Adam &amp; Rae Welcome Sign</title>
+<style>
+/* 18 × 24 in welcome sign (scales cleanly to A2 / 24 × 36 in). */
+@page { size: 18in 24in; margin: 0; }
+.sheet { width:18in; height:24in; padding:2.9in 2in 2.1in; }
+.stripe { height:.32in; }
+.oval-a { inset:.75in; border:.05in solid var(--olive); border-radius:50% / 20% !important; }
+.oval-b { inset:.98in; border:.022in solid var(--rose); border-radius:50% / 19% !important; }
+.mono { width:4.8in; }
+.welcome { font-size:1.75in; letter-spacing:.2em; padding-left:.2em; margin-top:.35in; line-height:1; }
+.of { font-size:1.15in; margin-top:.12in; }
+.names { font-size:1.05in; letter-spacing:.26em; padding-left:.26em; margin-top:.35in; line-height:1; }
+.date { font-size:.62in; letter-spacing:.3em; padding-left:.3em; color:var(--muted); margin-top:.25in; font-weight:500; }
+.leaf { width:5.4in; height:.8in; margin:.55in auto .6in; }
+.booth { width:12.2in; display:grid; grid-template-columns:1fr 3.3in; gap:.6in; align-items:center; text-align:left; background:var(--rose-soft); border-radius:.4in; padding:.7in .8in; }
+.booth .script { font-size:.82in; }
+.booth .caps { font-size:.9in; letter-spacing:.08em; color:var(--berry); line-height:1.02; margin-top:.08in; }
+.booth p { font-size:.36in; line-height:1.45; margin:.25in 0 0; }
+.booth p b { color:var(--olive); font-weight:500; }
+.qr-wrap { display:grid; gap:.12in; justify-items:center; }
+.qr { width:3.3in; height:3.3in; border-radius:.15in; }
+.qr-wrap span { font:500 .24in "Jost", sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+.swatches { gap:.14in; margin-top:auto; margin-bottom:.15in; }
+.swatches i { width:.55in; height:.16in; border-radius:.08in; }
+</style>
+</head><body>
+<div class="tools">
+  <input id="url" type="url" value="https://jongsky25.github.io/Adam-and-Rae-Wedding/" aria-label="Upload page link">
+  <button type="button" onclick="renderQR()">Update QR</button>
+  <button type="button" onclick="window.print()">Print / Save PDF</button>
+</div>
+<article class="sheet">
+  <div class="stripe"><i style="background:var(--berry)"></i><i style="background:var(--rose)"></i><i style="background:var(--lime)"></i><i style="background:var(--olive)"></i></div><div class="stripe bottom" style="height:.32in"><i style="background:var(--berry)"></i><i style="background:var(--rose)"></i><i style="background:var(--lime)"></i><i style="background:var(--olive)"></i></div>
+  <div class="oval-a"></div><div class="oval-b"></div>
+  <div class="mono" role="img" aria-label="A R monogram"></div>
+  <h1 class="caps welcome">Welcome</h1>
+  <p class="script of">to the wedding of</p>
+  <p class="caps names">Adam &amp; Rae</p>
+  <p class="caps date">28.11.26</p>
+  <svg class="leaf" viewBox="0 0 160 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M4 14h52M104 14h52"/><circle cx="64" cy="14" r="1.6" fill="currentColor"/><circle cx="96" cy="14" r="1.6" fill="currentColor"/><path d="M80 22V8"/><path d="M80 14c-2-6-7-8-10-7 1 5 5 7 10 7zM80 14c2-6 7-8 10-7-1 5-5 7-10 7zM80 9c-2-3-1-6 0-7 1 1 2 4 0 7z" fill="currentColor" stroke="none"/></svg>
+  <section class="booth">
+    <div>
+      <p class="script">and don't miss the</p>
+      <h2 class="caps">Stuffy Cute Charms</h2>
+      <p>Share your photos from today and take home a <b>free little charm</b> made by Charms by AA. Scan the code to start.</p>
+    </div>
+    <div class="qr-wrap"><div class="qr"></div><span>Scan to share</span></div>
+  </section>
+  <div class="swatches" aria-hidden="true"><i style="background:var(--berry)"></i><i style="background:var(--rose)"></i><i style="background:var(--lime)"></i><i style="background:var(--olive)"></i></div>
+</article>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="qr.js"></script>
+</body></html>

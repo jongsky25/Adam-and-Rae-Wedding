@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adam &amp; Rae Photos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column styled like the couple's oval stationery; upload steps, then a tear-off claim slip with their charm. */
+:root {
+  /* mood board swatches */
+  --berry: #893941;
+  --rose: #cb7885;
+  --lime: #d4d994;
+  --olive: #5e6623;
+  --paper: #fbf7f6;
+  --card: #ffffff;
+  --ink: #3b1d22;
+  --muted: #7d6266;
+  --sage: #5e6623;
+  --sage-soft: #f2f4de;
+  --gold: #893941;
+  --gold-soft: #f8e5e8;
+  --line: #eddcdf;
+  --button: #5e6623;
+  --button-ink: #ffffff;
+  --danger: #a5402d;
+  --font-caps: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
+  --font-script: "Pinyon Script", "Snell Roundhand", "Brush Script MT", cursive;
+  --font-body: "Jost", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1a1113; --card: #24171a; --ink: #f5e9eb; --muted: #c4a7ac;
+    --sage: #c3ca78; --sage-soft: #272a17; --gold: #e48e9c; --gold-soft: #3b1e24;
+    --line: #3e2a2e; --danger: #e08a76; --button: #d4d994; --button-ink: #2a2d10; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1a1113; --card: #24171a; --ink: #f5e9eb; --muted: #c4a7ac;
+  --sage: #c3ca78; --sage-soft: #272a17; --gold: #e48e9c; --gold-soft: #3b1e24;
+  --line: #3e2a2e; --danger: #e08a76; --button: #d4d994; --button-ink: #2a2d10; color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 16px/1.55 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(env(safe-area-inset-top, 0px) + 24px) calc(env(safe-area-inset-bottom, 0px) + 40px);
+}
+.wrap { max-width: 480px; margin: 0 auto; display: grid; gap: 20px; }
+.demo { font-size: 13px; color: var(--muted); border: 1px dashed var(--line); border-radius: 10px; padding: 8px 12px; text-align: center; }
+
+header.hero { text-align: center; display: grid; gap: 4px; padding-block: 12px 4px; }
+.eyebrow { font: 500 13px var(--font-caps); letter-spacing: .26em; text-transform: uppercase; color: var(--muted); }
+.monogram { width: min(200px, 52vw); aspect-ratio: 590 / 459; margin: 0 auto; background: var(--gold);
+  -webkit-mask: url("assets/monogram.png") center / contain no-repeat; mask: url("assets/monogram.png") center / contain no-repeat; }
+.names { font: 500 clamp(24px, 7vw, 30px)/1.1 var(--font-caps); letter-spacing: .3em; text-transform: uppercase; margin: 10px 0 0; padding-left: .3em; text-wrap: balance; }
+.script { font: 400 clamp(30px, 9vw, 38px)/1 var(--font-script); color: var(--gold); margin: 0; }
+.date { font: 500 18px var(--font-caps); letter-spacing: .22em; font-variant-numeric: lining-nums; }
+.sprig { width: 160px; height: 24px; margin: 6px auto 0; color: var(--olive); }
+
+.panel, .slip { background: var(--card) linear-gradient(90deg, var(--berry) 0 25%, var(--rose) 0 50%, var(--lime) 0 75%, var(--olive) 0) top / 100% 6px no-repeat; }
+.panel { padding-top: 28px !important; }
+.panel { border: 1px solid var(--line); border-radius: 18px; padding: 22px 20px; display: grid; gap: 16px; }
+.panel h2 { margin: 0; font: 500 22px/1.2 var(--font-caps); display: flex; align-items: baseline; gap: 10px; }
+.step { font: 500 12px var(--font-mono); color: var(--gold); letter-spacing: .08em; }
+.lede { margin: 0; color: var(--muted); font-size: 15px; }
+.reward { display: flex; gap: 12px; align-items: center; background: var(--gold-soft); border-radius: 12px; padding: 12px 14px; font-size: 14px; }
+.reward svg { flex: none; width: 34px; height: 34px; color: var(--gold); }
+
+label { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: grid; gap: 6px; }
+input[type="text"] {
+  font: 400 17px var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; width: 100%; text-transform: none; letter-spacing: 0;
+}
+input[type="text"]:focus-visible, button:focus-visible, .picker:focus-within { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.picker {
+  position: relative; display: grid; place-items: center; gap: 6px; text-align: center;
+  border: 1.5px dashed var(--sage); border-radius: 14px; padding: 26px 16px; background: var(--sage-soft); cursor: pointer;
+  text-transform: none; letter-spacing: 0; color: var(--ink); font-size: 16px;
+}
+.picker input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.picker svg { width: 36px; height: 36px; color: var(--sage); }
+.picker small { color: var(--muted); font-size: 13px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.thumb { position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: var(--sage-soft); max-width: 100%; }
+.thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb .x { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; border-radius: 50%; border: 0; background: rgba(0,0,0,.55); color: #fff; font-size: 15px; line-height: 1; cursor: pointer; }
+.thumb .state { position: absolute; inset: auto 0 0 0; font: 500 11px var(--font-mono); background: rgba(0,0,0,.55); color: #fff; padding: 3px 6px; }
+.thumb.done::after { content: "✓"; position: absolute; inset: 0; display: grid; place-items: center; font-size: 28px; color: #fff; background: rgba(94,102,35,.55); }
+.thumb.fail { outline: 2px solid var(--danger); }
+
+.btn {
+  font: 500 16px var(--font-body); letter-spacing: .04em; border: 0; border-radius: 999px; padding: 15px 20px; cursor: pointer;
+  background: var(--button); color: var(--button-ink); width: 100%;
+}
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.note { font-size: 13px; color: var(--muted); margin: 0; text-align: center; }
+.err { color: var(--danger); font-size: 14px; margin: 0; }
+
+.bar { height: 6px; border-radius: 6px; background: var(--sage-soft); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .3s ease; }
+.progress-line { display: flex; justify-content: space-between; font: 400 13px var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Claim slip */
+.slip { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.slip-top { padding: 24px 20px 18px; text-align: center; display: grid; gap: 6px; }
+.slip-top .names { margin: 0; }
+.perf { position: relative; height: 0; border-top: 2px dashed var(--line); margin: 0 18px; }
+.perf::before, .perf::after { content: ""; position: absolute; top: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line); }
+.perf::before { left: -31px; } .perf::after { right: -31px; }
+.slip-body { padding: 20px; display: grid; gap: 14px; }
+.code-box { text-align: center; display: grid; gap: 4px; }
+.code { font: 500 clamp(34px, 11vw, 46px)/1 var(--font-mono); letter-spacing: .14em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.keychain { display: grid; justify-items: center; gap: 8px; padding-top: 14px; }
+.keychain .ring { width: 168px; max-width: 100%; aspect-ratio: 1; border-radius: 50%; padding: 5px; background: conic-gradient(from 200deg, #893941, #f0c4cb, #cb7885, #f7dde1, #893941); box-shadow: 0 8px 22px rgba(137, 57, 65, .28); position: relative; }
+.keychain .ring::before { content: ""; position: absolute; top: -18px; left: 50%; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; border: 3px solid var(--gold); }
+.keychain video { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; background: var(--sage-soft); }
+dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 14px; font-size: 14px; }
+dt { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; padding-top: 2px; }
+dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; min-width: 0; overflow-wrap: anywhere; }
+.live { display: flex; align-items: center; justify-content: center; gap: 8px; font: 400 13px var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sage); animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
+.redeem { background: var(--gold-soft); border-radius: 12px; padding: 12px 14px; font-size: 14px; text-align: center; }
+
+@media (prefers-reduced-motion: reduce) { .dot { animation: none; } .bar i { transition: none; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="demo" id="demoBanner" hidden>Preview mode: photos stay on this phone and the claim code is a sample.</p>
+
+  <header class="hero">
+    <div class="monogram" role="img" aria-label="A R monogram"></div>
+    <h1 class="names" id="coupleNames">Adam &amp; Rae</h1>
+    <p class="script">share the love</p>
+    <span class="date" id="weddingDate">28.11.26</span>
+    <svg class="sprig" viewBox="0 0 160 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+      <path d="M4 14h52M104 14h52"/><circle cx="64" cy="14" r="1.6" fill="currentColor"/><circle cx="96" cy="14" r="1.6" fill="currentColor"/>
+      <path d="M80 22V8" /><path d="M80 14c-2-6-7-8-10-7 1 5 5 7 10 7zM80 14c2-6 7-8 10-7-1 5-5 7-10 7zM80 9c-2-3-1-6 0-7 1 1 2 4 0 7z" fill="currentColor" stroke="none"/>
+    </svg>
+  </header>
+
+  <!-- Upload flow -->
+  <section id="uploadView" class="panel" aria-labelledby="uploadTitle">
+    <h2 id="uploadTitle"><span class="step">01</span> Let's see your camera roll</h2>
+    <p class="lede">Add the photos and videos you took today. They go straight into our wedding album.</p>
+
+    <div class="reward">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="13" cy="13" r="7"/><circle cx="13" cy="13" r="2.5"/><path d="M18 18l4 4"/><rect x="21" y="21" width="14" height="14" rx="3" transform="rotate(0)"/><path d="M25 28h6"/></svg>
+      <span>Share at least <strong id="minLabel">1 photo</strong> and you'll get a claim slip for a <strong id="rewardLabel">free Stuffy Cute Charm</strong>.</span>
+    </div>
+
+    <label for="guestName">Your name
+      <input type="text" id="guestName" autocomplete="name" placeholder="e.g. Tita Grace" maxlength="60">
+    </label>
+
+    <label class="picker" for="filePick">
+      <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="7" width="30" height="23" rx="4"/><circle cx="18" cy="18.5" r="6"/><path d="M12 7l2-3h8l2 3"/></svg>
+      <span>Choose photos &amp; videos</span>
+      <small id="limitNote">Videos up to 35 MB each</small>
+      <input type="file" id="filePick" accept="image/*,video/*" multiple>
+    </label>
+
+    <div class="grid" id="grid" aria-live="polite"></div>
+
+    <div id="progressWrap" hidden>
+      <div class="bar"><i id="barFill"></i></div>
+      <div class="progress-line"><span id="progressText">0 of 0</span><span id="progressPct">0%</span></div>
+    </div>
+
+    <p class="err" id="errorText" role="alert" hidden></p>
+    <button class="btn" id="sendBtn" disabled>Share to our album</button>
+    <p class="note">Please keep this page open until it finishes.</p>
+  </section>
+
+  <!-- Claim slip -->
+  <section id="slipView" hidden aria-labelledby="slipTitle">
+    <article class="slip">
+      <div class="slip-top">
+        <h2 class="names" id="slipTitle">Thank you</h2>
+        <p class="script">for sharing</p>
+        <span class="eyebrow">Claim slip · <span id="slipReward">free Stuffy Cute Charm</span></span>
+      </div>
+      <div class="perf" aria-hidden="true"></div>
+      <div class="slip-body">
+        <figure class="keychain" style="margin:0">
+          <div class="ring"><video src="assets/charm.mp4" poster="assets/charm-poster.jpg" autoplay muted loop playsinline aria-label="Adam and Rae charm design"></video></div>
+          <figcaption class="eyebrow">Your charm</figcaption>
+        </figure>
+        <div class="code-box">
+          <span class="eyebrow">Claim code</span>
+          <span class="code" id="claimCode">------</span>
+        </div>
+        <dl>
+          <dt>Guest</dt><dd id="slipGuest">—</dd>
+          <dt>Shared</dt><dd id="slipCount">—</dd>
+          <dt>Issued</dt><dd id="slipIssued">—</dd>
+        </dl>
+        <div class="live" aria-label="Live clock"><span class="dot"></span><span id="liveClock">--:--:--</span></div>
+        <div class="redeem">Show this screen at the <strong id="stationLabel">Stuffy Cute Charms booth</strong>. One slip per guest. Staff will check that the clock is moving.</div>
+        <button class="btn ghost" id="moreBtn">Share more photos</button>
+      </div>
+    </article>
+  </section>
+</main>
+
+<script src="config.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+const demo = !CONFIG.scriptUrl;
+let guestId = store.get("wps.guestId");
+if (!guestId) { guestId = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)); store.set("wps.guestId", guestId); }
+
+let items = [];       // { file, url, el, done }
+let busy = false;
+
+function applyConfig() {
+  $("coupleNames").textContent = CONFIG.couple;
+  $("weddingDate").textContent = CONFIG.dateLine;
+  $("rewardLabel").textContent = CONFIG.reward;
+  $("slipReward").textContent = CONFIG.reward;
+  $("stationLabel").textContent = CONFIG.station;
+  $("minLabel").textContent = CONFIG.minFiles + (CONFIG.minFiles === 1 ? " photo" : " photos");
+  $("limitNote").textContent = "Videos up to " + CONFIG.maxVideoMB + " MB each";
+  $("demoBanner").hidden = !demo;
+  const saved = store.get("wps.name");
+  if (saved) $("guestName").value = saved;
+}
+
+function showError(msg) { const e = $("errorText"); e.textContent = msg; e.hidden = !msg; }
+function refreshButton() {
+  const pending = items.filter(i => !i.done).length;
+  $("sendBtn").disabled = busy || pending === 0 || !$("guestName").value.trim();
+  $("sendBtn").textContent = busy ? "Sharing…" : pending ? `Share ${pending} to our album` : "Share to our album";
+}
+
+$("filePick").addEventListener("change", (ev) => {
+  showError("");
+  for (const file of ev.target.files) {
+    const isVideo = file.type.startsWith("video/");
+    if (!file.type.startsWith("image/") && !isVideo) continue;
+    if (isVideo && file.size > CONFIG.maxVideoMB * 1048576) {
+      showError(`"${file.name}" is ${(file.size / 1048576).toFixed(0)} MB. Videos must be under ${CONFIG.maxVideoMB} MB; try a shorter clip.`);
+      continue;
+    }
+    const url = URL.createObjectURL(file);
+    const el = document.createElement("div");
+    el.className = "thumb";
+    el.innerHTML = isVideo ? `<video src="${url}" muted playsinline></video>` : `<img src="${url}" alt="">`;
+    const x = document.createElement("button");
+    x.className = "x"; x.type = "button"; x.setAttribute("aria-label", "Remove"); x.textContent = "×";
+    const item = { file, url, el, done: false };
+    x.onclick = () => { if (busy) return; items = items.filter(i => i !== item); el.remove(); URL.revokeObjectURL(url); refreshButton(); };
+    el.appendChild(x);
+    $("grid").appendChild(el);
+    items.push(item);
+  }
+  ev.target.value = "";
+  refreshButton();
+});
+$("guestName").addEventListener("input", refreshButton);
+
+async function shrinkImage(file) {
+  if (file.type === "image/gif") return file;
+  try {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, CONFIG.maxImageSide / Math.max(bmp.width, bmp.height));
+    if (scale === 1 && file.size < 4 * 1048576) return file;
+    const c = document.createElement("canvas");
+    c.width = Math.round(bmp.width * scale); c.height = Math.round(bmp.height * scale);
+    c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.86));
+    return blob ? new File([blob], file.name.replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg" }) : file;
+  } catch { return file; }
+}
+const toBase64 = (blob) => new Promise((res, rej) => {
+  const r = new FileReader();
+  r.onload = () => res(String(r.result).split(",")[1]);
+  r.onerror = rej; r.readAsDataURL(blob);
+});
+async function call(payload) {
+  const res = await fetch(CONFIG.scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+  const data = await res.json();
+  if (!data.ok) throw new Error(data.error || "Upload failed");
+  return data;
+}
+const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+$("sendBtn").addEventListener("click", async () => {
+  const name = $("guestName").value.trim();
+  if (!name) return showError("Please add your name so we know who to thank.");
+  store.set("wps.name", name);
+  busy = true; showError(""); refreshButton();
+  const queue = items.filter(i => !i.done);
+  const total = queue.length; let n = 0, failed = 0;
+  $("progressWrap").hidden = false;
+  const tick = () => {
+    $("progressText").textContent = `${n} of ${total}`;
+    const pct = Math.round(n / total * 100);
+    $("progressPct").textContent = pct + "%"; $("barFill").style.width = pct + "%";
+  };
+  tick();
+  for (const item of queue) {
+    item.el.classList.remove("fail");
+    const tag = document.createElement("span"); tag.className = "state"; tag.textContent = "sending"; item.el.appendChild(tag);
+    try {
+      if (demo) { await wait(500 + Math.random() * 500); }
+      else {
+        const f = item.file.type.startsWith("image/") ? await shrinkImage(item.file) : item.file;
+        await call({ action: "upload", guestId, name, filename: f.name, mimeType: f.type, data: await toBase64(f) });
+      }
+      item.done = true; item.el.classList.add("done"); item.el.querySelector(".x")?.remove();
+    } catch (e) {
+      failed++; item.el.classList.add("fail");
+    }
+    tag.remove(); n++; tick();
+  }
+  busy = false; refreshButton();
+  const sent = items.filter(i => i.done).length + (store.get("wps.slip")?.count || 0);
+  if (failed) showError(`${failed} file${failed > 1 ? "s" : ""} didn't go through. Check your signal and tap Share again.`);
+  if (sent < CONFIG.minFiles) return;
+  try {
+    const slip = demo
+      ? { code: store.get("wps.slip")?.code || sampleCode(), count: sent, issued: new Date().toISOString() }
+      : await call({ action: "finish", guestId, name });
+    store.set("wps.slip", { ...slip, name });
+    showSlip({ ...slip, name });
+  } catch (e) { showError("Your photos were saved, but the claim slip didn't load. Tap Share again in a moment."); }
+});
+
+function sampleCode() {
+  const a = "ACDEFGHJKMNPQRTUVWXY34679"; let s = "";
+  for (let i = 0; i < 6; i++) s += a[Math.floor(Math.random() * a.length)];
+  return s;
+}
+function showSlip(slip) {
+  $("claimCode").textContent = slip.code.slice(0, 3) + " " + slip.code.slice(3);
+  $("slipGuest").textContent = slip.name;
+  $("slipCount").textContent = slip.count + (slip.count === 1 ? " file" : " files");
+  $("slipIssued").textContent = new Date(slip.issued).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  $("uploadView").hidden = true; $("slipView").hidden = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+$("moreBtn").addEventListener("click", () => {
+  items.forEach(i => { i.el.remove(); URL.revokeObjectURL(i.url); }); items = [];
+  $("progressWrap").hidden = true; $("barFill").style.width = "0";
+  $("slipView").hidden = true; $("uploadView").hidden = false; refreshButton();
+});
+setInterval(() => { $("liveClock").textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }); }, 1000);
+
+applyConfig();
+const existing = store.get("wps.slip");
+if (existing && existing.code) showSlip(existing);
+refreshButton();
+</script>
+</body>
+</html>
