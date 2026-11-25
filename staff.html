@@ -113,7 +113,7 @@ async function loadStats() {
   try {
     const res = await fetch(SCRIPT_URL, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify({ action:"stats", pin }) });
     const d = await res.json();
-    if (!d.ok) { $("updated").textContent = d.error === "Wrong staff PIN" ? "Wrong PIN" : "Couldn't load"; return; }
+    if (!d.ok) { $("updated").textContent = d.error === "Wrong staff PIN" ? "Wrong PIN" : "Error: " + d.error; return; }
     try { localStorage.setItem("wps.pin", pin); } catch {}
     $("charmsLeft").innerHTML = `${d.charmsLeft}<span> of ${d.limit} charms left</span>`;
     $("charmsLeft").classList.toggle("low", d.charmsLeft <= 10);
