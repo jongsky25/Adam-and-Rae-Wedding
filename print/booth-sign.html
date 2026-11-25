@@ -32,7 +32,7 @@
 .qr { width:1.75in; height:1.75in; border-radius:.08in; border:.02in solid #eddcdf; }
 .qr-row .script { font-size:.32in; margin-top:.04in; white-space:nowrap; }
 .qr-row p { font-size:.13in; line-height:1.35; margin:0; }
-.url-text { font-family:"Jost", sans-serif; font-size:.11in; color:var(--muted); white-space:nowrap; }
+.url-text { font:500 .17in "Jost", sans-serif; color:var(--berry); white-space:nowrap; margin:0; }
 .note { margin-top:.2in; font-size:.15in; line-height:1.45; max-width:5.4in; border-top:.012in solid var(--rose); border-bottom:.012in solid var(--rose); padding:.1in .1in; }
 .note b { color:var(--berry); font-weight:500; }
 .sign { margin-top:auto; font-size:.2in; letter-spacing:.26em; padding-left:.26em; }
@@ -42,8 +42,6 @@
 </style>
 </head><body>
 <div class="tools">
-  <input id="url" type="url" value="https://jongsky25.github.io/Adam-and-Rae-Wedding/" aria-label="Upload page link">
-  <button type="button" onclick="renderQR()">Update QR</button>
   <button type="button" onclick="window.print()">Print / Save PDF</button>
 </div>
 <article class="sheet">
@@ -57,7 +55,7 @@
   <ol class="steps">
     <li><span class="n">1</span>
       <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1"/><rect x="22" y="5" width="9" height="9" rx="1"/><rect x="5" y="22" width="9" height="9" rx="1"/><path d="M22 22h4v4M31 22v9h-9M26 31v-1"/></svg>
-      <strong>Scan</strong><span>Scan the QR code with your phone camera.</span></li>
+      <strong>Scan</strong><span>Scan the QR code, or type bit.ly/AdamRae.</span></li>
     <li><span class="n">2</span>
       <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="7" width="30" height="23" rx="4"/><circle cx="18" cy="18.5" r="6"/><path d="M12 7l2-3h8l2 3"/></svg>
       <strong>Share</strong><span>Upload at least 1 photo or video from today.</span></li>
@@ -66,13 +64,12 @@
       <strong>Show</strong><span>Show your claim slip on your phone here.</span></li>
   </ol>
   <div class="qr-row">
-    <figure><div class="qr"></div><figcaption><p class="script">scan me</p><p class="caps">Photo album</p></figcaption></figure>
+    <figure><div class="qr"></div><figcaption><p class="script">scan me</p><p class="url-text">bit.ly/AdamRae</p></figcaption></figure>
     <figure><img class="vendor" src="../assets/charms-by-aa.jpg" alt="Stuffy Cute Charms by Charms by AA logo"><figcaption><p class="script">made by</p><p class="caps">Charms by AA</p></figcaption></figure>
   </div>
   <p class="note"><b>Please show your claim slip</b> to get your charm. Our staff will check your 6-letter code. One charm per guest.</p>
   <div class="caps sign">Adam &amp; Rae<small>28.11.26</small></div>
   <div class="swatches" aria-hidden="true"><i style="background:var(--berry)"></i><i style="background:var(--rose)"></i><i style="background:var(--lime)"></i><i style="background:var(--olive)"></i></div>
 </article>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script src="qr.js"></script>
 </body></html>

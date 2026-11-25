@@ -23,14 +23,13 @@
 .booth p b { color:var(--olive); font-weight:500; }
 .qr-wrap { display:grid; gap:.12in; justify-items:center; }
 .qr { width:3.3in; height:3.3in; border-radius:.15in; }
+.qr-wrap .url-text { font:500 .34in "Jost", sans-serif; color:var(--berry); letter-spacing:.02em; }
 .qr-wrap span { font:500 .24in "Jost", sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
 .swatches { gap:.14in; margin-top:auto; margin-bottom:.15in; }
 .swatches i { width:.55in; height:.16in; border-radius:.08in; }
 </style>
 </head><body>
 <div class="tools">
-  <input id="url" type="url" value="https://jongsky25.github.io/Adam-and-Rae-Wedding/" aria-label="Upload page link">
-  <button type="button" onclick="renderQR()">Update QR</button>
   <button type="button" onclick="window.print()">Print / Save PDF</button>
 </div>
 <article class="sheet">
@@ -48,10 +47,9 @@
       <h2 class="caps">Stuffy Cute Charms</h2>
       <p>Share your photos from today and take home a <b>free little charm</b> made by Charms by AA. Scan the code to start.</p>
     </div>
-    <div class="qr-wrap"><div class="qr"></div><span>Scan to share</span></div>
+    <div class="qr-wrap"><div class="qr"></div><span>Scan to share</span><b class="url-text">bit.ly/AdamRae</b></div>
   </section>
   <div class="swatches" aria-hidden="true"><i style="background:var(--berry)"></i><i style="background:var(--rose)"></i><i style="background:var(--lime)"></i><i style="background:var(--olive)"></i></div>
 </article>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script src="qr.js"></script>
 </body></html>
