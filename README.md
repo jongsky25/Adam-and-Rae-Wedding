@@ -12,7 +12,8 @@ for a free charm (by Charms by AA). Photos land in your Google Drive. No server 
 | File | What it is |
 |---|---|
 | `index.html` | Guest upload page + claim slip |
-| `staff.html` | Stuffy Cute Charms booth: check / redeem codes (PIN) |
+| `staff.html` | Stuffy Cute Charms booth: check / redeem codes + live dashboard (PIN) |
+| `wall.html` | Live photo wall for a TV/projector (PIN) |
 | `config.js` | **The one file to edit:** Apps Script link, names, wording |
 | `apps-script/Code.gs` | Backend to paste into Google Apps Script |
 | `qr-card.html` / `print/qr-card.pdf` | 4×6 in table card |
@@ -37,6 +38,10 @@ then re-export the PDFs.
 4. At the station, staff type the code in `staff.html` → **Give charm** marks it
    claimed. A second attempt shows **Already claimed**.
 5. The slip shows a ticking clock, so a forwarded screenshot is easy to spot.
+6. Slips stop after `CHARM_LIMIT` (100) in `apps-script/Code.gs`; later guests still
+   upload and see "all charms claimed".
+7. Every file is logged in the **Uploads** tab; the staff page shows a live dashboard,
+   and `wall.html` shows guest photos as a slideshow.
 
 ## Limits to know
 

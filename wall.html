@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Adam &amp; Rae Photo Wall</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap">
+<style>
+/* Full-screen slideshow for a TV or projector: newest guest photos first, then loops. */
+:root { --bg:#1c0f12; --ink:#f8eef0; --muted:#d6b9be; --berry:#893941; --rose:#cb7885; --lime:#d4d994; --olive:#5e6623; color-scheme:dark; }
+* { box-sizing:border-box; }
+[hidden] { display:none !important; }
+html, body { height:100%; margin:0; background:var(--bg); color:var(--ink); font:400 16px/1.4 "Jost", system-ui, sans-serif; overflow:hidden; }
+.stage { position:fixed; inset:0; }
+.layer { position:absolute; inset:0; opacity:0; transition:opacity 1.2s ease; }
+.layer.on { opacity:1; }
+.layer .blur { position:absolute; inset:-40px; background-size:cover; background-position:center; filter:blur(36px) brightness(.45) saturate(1.2); }
+.layer img { position:absolute; inset:4vh 4vw 13vh; width:92vw; height:83vh; object-fit:contain; filter:drop-shadow(0 18px 40px rgba(0,0,0,.5)); }
+.stripe { position:fixed; left:0; right:0; top:0; height:6px; display:flex; z-index:3; }
+.stripe i { flex:1; }
+.brand { position:fixed; left:max(3vw, env(safe-area-inset-left)); bottom:3vh; display:flex; align-items:center; gap:1.4vw; z-index:3; }
+.mono { width:7vh; aspect-ratio:590/459; background:var(--rose); -webkit-mask:url("assets/monogram.png") center/contain no-repeat; mask:url("assets/monogram.png") center/contain no-repeat; }
+.brand .names { font:600 2.6vh/1 "Cormorant Garamond", serif; letter-spacing:.3em; text-transform:uppercase; }
+.brand .by { font:400 3.4vh/1.1 "Pinyon Script", cursive; color:var(--rose); margin-top:.6vh; }
+.brand .by b { font-weight:400; color:var(--ink); }
+.fresh { display:inline-block; font:500 1.4vh "Jost", sans-serif; letter-spacing:.18em; text-transform:uppercase; background:var(--lime); color:#2a2d10; border-radius:99px; padding:.4vh .9vw; margin-left:.8vw; vertical-align:middle; }
+.add { position:fixed; right:max(3vw, env(safe-area-inset-right)); bottom:3vh; display:flex; align-items:center; gap:1vw; background:rgba(28,15,18,.72); border:1px solid rgba(203,120,133,.5); border-radius:1.6vh; padding:1vh 1.2vw 1vh 1vh; z-index:3; }
+.add img { width:10vh; height:10vh; border-radius:.8vh; background:#fff; display:block; }
+.add p { margin:0; font:400 3vh/1 "Pinyon Script", cursive; color:var(--rose); }
+.add b { display:block; font:500 2.2vh "Jost", sans-serif; color:var(--ink); margin-top:.6vh; }
+.count { position:fixed; right:max(3vw, env(safe-area-inset-right)); top:3vh; font:500 1.6vh "Jost", sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); z-index:3; font-variant-numeric:tabular-nums; }
+.empty { position:fixed; inset:0; display:grid; place-items:center; text-align:center; z-index:2; }
+.empty .inner { display:grid; justify-items:center; gap:2vh; }
+.empty .mono { width:22vh; }
+.empty h1 { margin:0; font:600 5vh/1.1 "Cormorant Garamond", serif; letter-spacing:.24em; text-transform:uppercase; }
+.empty p { margin:0; font:400 5vh/1 "Pinyon Script", cursive; color:var(--rose); }
+.empty img { width:26vh; height:26vh; background:#fff; border-radius:1.4vh; }
+.empty b { font:500 3vh "Jost", sans-serif; }
+.controls { position:fixed; top:3vh; left:max(3vw, env(safe-area-inset-left)); display:flex; gap:8px; z-index:4; opacity:0; transition:opacity .3s; }
+body.show-controls .controls { opacity:1; }
+.controls button, .panel button { font:500 15px "Jost", sans-serif; border:0; border-radius:99px; padding:10px 16px; cursor:pointer; background:rgba(248,238,240,.14); color:var(--ink); backdrop-filter:blur(6px); }
+.controls button:focus-visible, .panel button:focus-visible, .panel input:focus-visible { outline:2px solid var(--lime); outline-offset:2px; }
+.panel button.primary { background:var(--berry); }
+.overlay { position:fixed; inset:0; display:grid; place-items:center; background:rgba(28,15,18,.82); z-index:10; padding:16px; }
+.panel { background:#2a161a; border:1px solid rgba(203,120,133,.4); border-radius:18px; padding:24px; width:min(380px, 100%); display:grid; gap:14px; text-align:center; }
+.panel h2 { margin:0; font:600 22px "Cormorant Garamond", serif; letter-spacing:.14em; text-transform:uppercase; }
+.panel p { margin:0; color:var(--muted); font-size:14px; }
+.panel input { font:500 22px "Jost", sans-serif; letter-spacing:.3em; text-align:center; background:#1c0f12; color:var(--ink); border:1px solid rgba(203,120,133,.4); border-radius:10px; padding:12px; width:100%; }
+.panel .row { display:flex; gap:8px; justify-content:center; }
+.err { color:#f0a0ad; font-size:14px; min-height:1em; }
+@media (prefers-reduced-motion: reduce) { .layer { transition:none; } }
+</style>
+</head>
+<body>
+<div class="stripe" aria-hidden="true"><i style="background:var(--berry)"></i><i style="background:var(--rose)"></i><i style="background:var(--lime)"></i><i style="background:var(--olive)"></i></div>
+
+<div class="stage" aria-live="polite">
+  <div class="layer" id="layerA"><div class="blur"></div><img alt=""></div>
+  <div class="layer" id="layerB"><div class="blur"></div><img alt=""></div>
+</div>
+
+<div class="empty" id="empty">
+  <div class="inner">
+    <div class="mono" aria-hidden="true"></div>
+    <h1>Adam &amp; Rae</h1>
+    <p>share the love</p>
+    <img src="assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+    <b>Scan or visit bit.ly/AdamRae to add your photos</b>
+  </div>
+</div>
+
+<div class="brand" id="brand" hidden>
+  <div class="mono" aria-hidden="true"></div>
+  <div>
+    <div class="names">Adam &amp; Rae · 28.11.26</div>
+    <div class="by">shared by <b id="who">—</b><span class="fresh" id="freshTag" hidden>Just shared</span></div>
+  </div>
+</div>
+<div class="add" id="add" hidden>
+  <img src="assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+  <div><p>add yours</p><b>bit.ly/AdamRae</b></div>
+</div>
+<div class="count" id="count"></div>
+
+<div class="controls" id="controls">
+  <button type="button" id="fsBtn">Full screen</button>
+  <button type="button" id="pauseBtn">Pause</button>
+  <button type="button" id="hideBtn">Hide this photo</button>
+</div>
+
+<div class="overlay" id="pinBox">
+  <form class="panel" id="pinForm">
+    <h2>Photo wall</h2>
+    <p>Enter the staff PIN to start the slideshow.</p>
+    <input id="pin" type="password" inputmode="numeric" autocomplete="off" aria-label="Staff PIN">
+    <div class="err" id="pinErr" role="alert"></div>
+    <button class="primary" type="submit">Start</button>
+  </form>
+</div>
+
+<div class="overlay" id="confirmBox" hidden>
+  <div class="panel">
+    <h2>Hide photo?</h2>
+    <p>It disappears from the wall right away. It stays in the Drive album, and you can show it again by clearing its "Hide from wall" cell in the Uploads sheet.</p>
+    <div class="row"><button type="button" id="noBtn">Keep it</button><button class="primary" type="button" id="yesBtn">Hide it</button></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const SHOW_MS = 8000, LIST_MS = 20000, CACHE_MAX = 40;
+let pin = "", list = [], order = [], pos = 0, fresh = [], seen = new Set(), current = null, paused = false, front = "layerA";
+const cache = new Map(); // id -> blob URL
+
+async function api(payload) {
+  const res = await fetch(SCRIPT_URL, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify({ ...payload, pin }) });
+  const d = await res.json();
+  if (!d.ok) throw new Error(d.error || "Request failed");
+  return d;
+}
+
+async function refreshList(first) {
+  try {
+    const d = await api({ action:"wallList" });
+    const ids = new Set(d.photos.map(p => p.id));
+    if (!first) d.photos.filter(p => !seen.has(p.id)).reverse().forEach(p => fresh.push(p.id));
+    d.photos.forEach(p => seen.add(p.id));
+    list = d.photos;
+    order = list.map(p => p.id);
+    fresh = fresh.filter(id => ids.has(id));
+    $("count").textContent = list.length ? `${list.length} photo${list.length === 1 ? "" : "s"} shared` : "";
+    if (!current && list.length) next();
+  } catch (e) { if (first) throw e; }
+}
+
+async function getUrl(id) {
+  if (cache.has(id)) { const u = cache.get(id); cache.delete(id); cache.set(id, u); return u; }
+  const d = await api({ action:"wallPhoto", id });
+  const bin = atob(d.data); const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const url = URL.createObjectURL(new Blob([bytes], { type: d.mime }));
+  cache.set(id, url);
+  if (cache.size > CACHE_MAX) { const [oldId, oldUrl] = cache.entries().next().value; cache.delete(oldId); URL.revokeObjectURL(oldUrl); }
+  return url;
+}
+
+function pickNext() {
+  if (fresh.length) return { id: fresh.shift(), isFresh: true };
+  if (!order.length) return null;
+  if (pos >= order.length) pos = 0;
+  return { id: order[pos++], isFresh: false };
+}
+
+let timer = null;
+async function next() {
+  clearTimeout(timer);
+  const pick = pickNext();
+  if (!pick) { showEmpty(true); return; }
+  try {
+    const url = await getUrl(pick.id);
+    await new Promise((ok, bad) => { const im = new Image(); im.onload = ok; im.onerror = bad; im.src = url; });
+    const meta = list.find(p => p.id === pick.id) || { name: "a guest" };
+    const back = front === "layerA" ? "layerB" : "layerA";
+    const layer = $(back);
+    layer.querySelector("img").src = url;
+    layer.querySelector("img").alt = "Photo shared by " + meta.name;
+    layer.querySelector(".blur").style.backgroundImage = `url("${url}")`;
+    layer.classList.add("on"); $(front).classList.remove("on"); front = back;
+    current = pick.id;
+    $("who").textContent = meta.name;
+    $("freshTag").hidden = !pick.isFresh;
+    showEmpty(false);
+    const peek = fresh[0] || order[pos % Math.max(order.length, 1)];
+    if (peek) getUrl(peek).catch(() => {});   // preload the next one
+  } catch (e) { /* skip a photo that won't load */ }
+  if (!paused) timer = setTimeout(next, current ? SHOW_MS : 2000);
+}
+
+function showEmpty(on) {
+  $("empty").hidden = !on; $("brand").hidden = on; $("add").hidden = on;
+  if (on) { current = null; document.querySelectorAll(".layer").forEach(l => l.classList.remove("on")); }
+}
+
+async function start() {
+  $("pinErr").textContent = "";
+  if (!SCRIPT_URL) { $("pinErr").textContent = "Add the Apps Script link to config.js first."; return; }
+  try { await refreshList(true); }
+  catch (e) { $("pinErr").textContent = e.message === "Wrong staff PIN" ? "Wrong PIN. Try again." : "Couldn't reach the album. Check the internet connection."; return; }
+  try { localStorage.setItem("wps.pin", pin); } catch {}
+  $("pinBox").hidden = true;
+  if (!list.length) showEmpty(true);
+  setInterval(() => refreshList(false).then(() => { if (!current && !paused) next(); }), LIST_MS);
+  try { await navigator.wakeLock?.request("screen"); } catch {}
+}
+
+$("pinForm").addEventListener("submit", (e) => { e.preventDefault(); pin = $("pin").value.trim(); start(); });
+try { const saved = localStorage.getItem("wps.pin"); if (saved) { $("pin").value = saved; pin = saved; start(); } } catch {}
+
+let idle;
+document.addEventListener("pointermove", () => { document.body.classList.add("show-controls"); clearTimeout(idle); idle = setTimeout(() => document.body.classList.remove("show-controls"), 3000); });
+$("fsBtn").onclick = () => { (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()).catch(() => {}); };
+$("pauseBtn").onclick = () => { paused = !paused; $("pauseBtn").textContent = paused ? "Play" : "Pause"; if (!paused) next(); else clearTimeout(timer); };
+$("hideBtn").onclick = () => { if (current) $("confirmBox").hidden = false; };
+$("noBtn").onclick = () => { $("confirmBox").hidden = true; };
+$("yesBtn").onclick = async () => {
+  $("confirmBox").hidden = true;
+  const id = current;
+  try {
+    await api({ action:"hide", id });
+    order = order.filter(x => x !== id); list = list.filter(p => p.id !== id); fresh = fresh.filter(x => x !== id);
+    cache.delete(id);
+    $("count").textContent = list.length ? `${list.length} photo${list.length === 1 ? "" : "s"} shared` : "";
+    next();
+  } catch (e) { $("count").textContent = "Couldn't hide that photo. Try again."; }
+};
+document.addEventListener("keydown", (e) => {
+  if (!$("pinBox").hidden || !$("confirmBox").hidden) return;
+  if (e.key === "ArrowRight") next();
+  if (e.key === " ") $("pauseBtn").click();
+  if (e.key.toLowerCase() === "f") $("fsBtn").click();
+  if (e.key.toLowerCase() === "h") $("hideBtn").click();
+});
+</script>
+</body>
+</html>

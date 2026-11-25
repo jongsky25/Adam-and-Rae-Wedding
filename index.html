@@ -193,15 +193,16 @@ dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; min-width
       <div class="slip-top">
         <h2 class="names" id="slipTitle">Thank you</h2>
         <p class="script">for sharing</p>
-        <span class="eyebrow">Claim slip · <span id="slipReward">free Stuffy Cute Charm</span></span>
+        <span class="eyebrow" id="slipEyebrow">Claim slip · <span id="slipReward">free Stuffy Cute Charm</span></span>
       </div>
       <div class="perf" aria-hidden="true"></div>
       <div class="slip-body">
-        <figure class="keychain" style="margin:0">
+        <p class="redeem" id="soldOutNote" hidden>All 100 Stuffy Cute Charms have been claimed. Your photos are safely in our album. Thank you for sharing our day!</p>
+        <figure class="keychain" id="charmFigure" style="margin:0">
           <div class="ring"><video src="assets/charm.mp4" poster="assets/charm-poster.jpg" autoplay muted loop playsinline aria-label="Adam and Rae charm design"></video></div>
           <figcaption class="eyebrow">Your charm</figcaption>
         </figure>
-        <div class="code-box">
+        <div class="code-box" id="codeBox">
           <span class="eyebrow">Claim code</span>
           <span class="code" id="claimCode">------</span>
         </div>
@@ -210,8 +211,8 @@ dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; min-width
           <dt>Shared</dt><dd id="slipCount">—</dd>
           <dt>Issued</dt><dd id="slipIssued">—</dd>
         </dl>
-        <div class="live" aria-label="Live clock"><span class="dot"></span><span id="liveClock">--:--:--</span></div>
-        <div class="redeem">Show this screen at the <strong id="stationLabel">Stuffy Cute Charms booth</strong>. One slip per guest. Staff will check that the clock is moving.</div>
+        <div class="live" id="liveBox" aria-label="Live clock"><span class="dot"></span><span id="liveClock">--:--:--</span></div>
+        <div class="redeem" id="redeemNote">Show this screen at the <strong id="stationLabel">Stuffy Cute Charms booth</strong>. One slip per guest. Staff will check that the clock is moving.</div>
         <button class="btn ghost" id="moreBtn">Share more photos</button>
       </div>
     </article>
@@ -296,11 +297,25 @@ const toBase64 = (blob) => new Promise((res, rej) => {
   r.onload = () => res(String(r.result).split(",")[1]);
   r.onerror = rej; r.readAsDataURL(blob);
 });
-async function call(payload) {
+// Errors the server gives for a bad file: retrying won't help.
+const FINAL_ERRORS = /Only photos|too large|Empty file|Missing guest|No photos received/;
+async function callOnce(payload) {
   const res = await fetch(CONFIG.scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
   const data = await res.json();
-  if (!data.ok) throw new Error(data.error || "Upload failed");
+  if (!data.ok) { const e = new Error(data.error || "Upload failed"); e.final = FINAL_ERRORS.test(e.message); throw e; }
   return data;
+}
+// Retries busy-server and weak-signal failures: waits about 2 s, 5 s, 10 s, 20 s.
+async function call(payload, onRetry) {
+  const delays = [2000, 5000, 10000, 20000];
+  for (let attempt = 0; ; attempt++) {
+    try { return await callOnce(payload); }
+    catch (e) {
+      if (e.final || attempt >= delays.length) throw e;
+      onRetry && onRetry(attempt + 1);
+      await wait(delays[attempt] + Math.random() * 1500);
+    }
+  }
 }
 const wait = (ms) => new Promise(r => setTimeout(r, ms));
 
@@ -325,7 +340,7 @@ $("sendBtn").addEventListener("click", async () => {
       if (demo) { await wait(500 + Math.random() * 500); }
       else {
         const f = item.file.type.startsWith("image/") ? await shrinkImage(item.file) : item.file;
-        await call({ action: "upload", guestId, name, filename: f.name, mimeType: f.type, data: await toBase64(f) });
+        await call({ action: "upload", guestId, name, filename: f.name, mimeType: f.type, data: await toBase64(f) }, (n) => { tag.textContent = "retrying " + n; });
       }
       item.done = true; item.el.classList.add("done"); item.el.querySelector(".x")?.remove();
     } catch (e) {
@@ -352,10 +367,13 @@ function sampleCode() {
   return s;
 }
 function showSlip(slip) {
-  $("claimCode").textContent = slip.code.slice(0, 3) + " " + slip.code.slice(3);
+  const sold = !!slip.soldOut && !slip.code;
+  ["charmFigure", "codeBox", "liveBox", "redeemNote", "slipEyebrow"].forEach(id => $(id).hidden = sold);
+  $("soldOutNote").hidden = !sold;
+  if (!sold) $("claimCode").textContent = slip.code.slice(0, 3) + " " + slip.code.slice(3);
   $("slipGuest").textContent = slip.name;
   $("slipCount").textContent = slip.count + (slip.count === 1 ? " file" : " files");
-  $("slipIssued").textContent = new Date(slip.issued).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  $("slipIssued").textContent = sold ? "—" : new Date(slip.issued).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
   $("uploadView").hidden = true; $("slipView").hidden = false;
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -368,7 +386,7 @@ setInterval(() => { $("liveClock").textContent = new Date().toLocaleTimeString([
 
 applyConfig();
 const existing = store.get("wps.slip");
-if (existing && existing.code) showSlip(existing);
+if (existing && (existing.code || existing.soldOut)) showSlip(existing);
 refreshButton();
 </script>
 </body>

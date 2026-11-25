@@ -1,5 +1,7 @@
 # Google Apps Script setup — Adam & Rae photo share
 
+> **Already set up before? Jump to "Update to version 2" at the bottom.**
+
 About 15 minutes. Do it once, then test with two phones.
 
 **Use a computer if you can.** On a phone, open Chrome, tap ⋮ and tick
@@ -112,3 +114,57 @@ Don't use "New deployment" again: that makes a **new** link, and then
 - Check the venue's mobile signal or Wi-Fi; uploads need internet.
 - After the wedding, the photos are all in **Drive → Adam & Rae — Guest Photos**.
   Share that folder with the couple.
+
+---
+
+## Update to version 2 (Uploads log, dashboard, 100-charm limit, photo wall)
+
+Do this once if you set up the script before 25 Nov. About 3 minutes.
+
+1. Open **script.google.com** → **Adam & Rae Photos**.
+2. In `Code.gs`, select all and delete it.
+3. Open **`apps-script/Code.gs`** in this repo → **Raw** → copy all → paste it in.
+4. **Set your PIN again:** the paste puts `const STAFF_PIN = '2468';` back.
+   Change `2468` to your PIN.
+5. Check `const CHARM_LIMIT = 100;`. That's the number of charms Charms by AA brought.
+6. Click **Save** (💾).
+7. **Deploy → Manage deployments** → click ✏️ (Edit) → under Version pick
+   **New version** → **Deploy**. If Google asks for permission again, allow it.
+   Don't use "New deployment": that makes a new link.
+8. Check it: open your `/exec` link in a browser. It should now say `"version":2`.
+
+You **don't** run `setup` again. The **Uploads** tab is added to the Claims
+sheet by itself with the first upload after the update.
+
+## What's new in version 2
+
+- **Uploads tab:** one row per photo or video, with time, guest, type, size and a
+  Drive link.
+- **Live dashboard:** at the bottom of the staff page
+  (https://jongsky25.github.io/Adam-and-Rae-Wedding/staff.html). After you enter
+  the PIN it shows charms left, guests, photos, videos, slips issued and the latest
+  uploads, refreshing every 30 seconds.
+- **100-charm limit:** after 100 slips are issued, new guests still upload, but see
+  "All 100 Stuffy Cute Charms have been claimed" instead of a code.
+  Guests who already have a slip keep it.
+  To change the number, edit `CHARM_LIMIT` and deploy a new version.
+- **Automatic retry:** when many guests upload at once and Google is busy, the
+  guest page waits and retries each file up to 4 times by itself.
+- **Live photo wall:** https://jongsky25.github.io/Adam-and-Rae-Wedding/wall.html
+
+## Running the photo wall
+
+1. Use a laptop connected to the TV or projector (HDMI). A smart TV browser
+   can work too. Good internet matters: each photo is downloaded once.
+2. Open **wall.html**, enter the staff PIN, tap **Start**.
+3. Move the mouse to show the buttons: **Full screen**, **Pause**,
+   **Hide this photo**.
+   - Keys: **F** full screen, **Space** pause, **→** next photo, **H** hide.
+4. New photos appear within about 20 seconds with a **"Just shared"** tag.
+   Then the wall loops through all photos, newest first, 8 seconds each.
+   Videos aren't shown on the wall; they stay in Drive.
+5. **Hide a photo:** tap **Hide this photo → Hide it**. It leaves the wall at once
+   but stays in Drive. To show it again, clear its cell in the **Hide from wall**
+   column of the Uploads tab.
+   You can also hide any photo straight from the sheet by typing anything in that column.
+6. Keep the laptop plugged in and turn off its sleep mode.
