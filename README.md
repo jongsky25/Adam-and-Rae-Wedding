@@ -17,6 +17,7 @@ for a free charm (by Charms by AA). Photos land in your Google Drive. No server 
 | `config.js` | **The one file to edit:** Apps Script link, names, wording |
 | `apps-script/Code.gs` | Backend to paste into Google Apps Script |
 | `qr-card.html` / `print/qr-card.pdf` | 4×6 in table card |
+| `print/qr-cards-a4.*` | 15 seat cards on one A4 (3 × 5, 66 × 57 mm), ink-saving, cut on dashed lines |
 | `print/welcome-sign.*` | 18×24 in welcome sign (PDF ready to print) |
 | `print/booth-sign.*` | A4 charm booth sign (PDF ready to print) |
 | `assets/` | AR monogram, charm video, Charms by AA logo |

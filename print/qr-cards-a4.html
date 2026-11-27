@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR Cards A4 (15 per sheet)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap">
+<style>
+/* 15 seat cards on one A4 sheet (3 × 5), each 66 × 57 mm, with dashed cutting guides.
+   Ink-saving: white paper, thin lines, colour only on small text. Print at 100% / "Actual size". */
+:root { --ink:#3b1d22; --muted:#7d6266; --berry:#893941; --rose:#cb7885; --olive:#5e6623; --cut:#bfb3b5; }
+* { box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+@page { size:210mm 297mm; margin:0; }
+html, body { margin:0; background:#efe9ea; }
+body { display:grid; justify-items:center; gap:16px; padding:24px 16px; font-family:"Jost", system-ui, sans-serif; color:var(--ink); }
+.tools { display:flex; gap:8px; width:min(100%, 520px); }
+.tools button { flex:1; font:500 14px "Jost", sans-serif; padding:10px; border:0; border-radius:999px; background:var(--olive); color:#fff; cursor:pointer; }
+.tools p { flex:2; margin:0; font-size:13px; color:var(--muted); }
+.sheet { width:210mm; height:297mm; background:#fff; padding:6mm; display:grid; grid-template-columns:repeat(3, 66mm); grid-template-rows:repeat(5, 57mm); box-shadow:0 6px 24px rgba(59,29,34,.15); }
+.card { position:relative; display:grid; grid-template-columns:31mm 1fr; grid-template-rows:1fr auto; column-gap:2.5mm; align-items:center; padding:3.5mm 3mm 2.5mm;
+  border-right:.25mm dashed var(--cut); border-bottom:.25mm dashed var(--cut); }
+.card:nth-child(3n+1) { border-left:.25mm dashed var(--cut); }
+.card:nth-child(-n+3) { border-top:.25mm dashed var(--cut); }
+.qr { width:31mm; height:31mm; display:block; }
+.txt { display:grid; justify-items:center; text-align:center; gap:.6mm; min-width:0; }
+.mono { width:13mm; aspect-ratio:590/459; background:var(--berry); -webkit-mask:url("../assets/monogram.png") center/contain no-repeat; mask:url("../assets/monogram.png") center/contain no-repeat; }
+.caps { font-family:"Cormorant Garamond", Garamond, serif; font-weight:600; text-transform:uppercase; margin:0; font-variant-numeric:lining-nums; }
+.title { font-size:8.5pt; letter-spacing:.16em; padding-left:.16em; line-height:1; }
+.script { font:400 12pt/1 "Pinyon Script", cursive; color:var(--berry); margin:0; }
+.link { margin:.8mm 0 0; font-size:5.6pt; line-height:1.3; color:var(--muted); }
+.link b { font-size:7.4pt; font-weight:500; color:var(--berry); letter-spacing:.01em; }
+.perk { margin:.6mm 0 0; font-size:5.8pt; line-height:1.3; border-top:.2mm solid var(--rose); padding-top:.8mm; width:100%; }
+.perk b { color:var(--olive); font-weight:500; }
+.sign { grid-column:1 / -1; justify-self:center; font-size:6.4pt; letter-spacing:.26em; padding-left:.26em; color:var(--ink); margin-top:1.6mm; }
+@media print { html, body { background:none; } body { display:block; padding:0; } .tools { display:none; } .sheet { box-shadow:none; } }
+</style>
+</head><body>
+<div class="tools">
+  <p>15 cards per A4. Print at 100% ("Actual size"), then cut along the dashed lines.</p>
+  <button type="button" onclick="window.print()">Print / Save PDF</button>
+</div>
+<article class="sheet">
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+    <div class="card">
+      <img class="qr" src="../assets/qr-bitly.png" alt="QR code to bit.ly/AdamRae">
+      <div class="txt">
+        <div class="mono" aria-hidden="true"></div>
+        <p class="caps title">Upload Pics</p>
+        <p class="script">from our day</p>
+        <p class="link">scan or visit<br><b>bit.ly/AdamRae</b></p>
+        <p class="perk">Share a photo,<br>get a <b>free charm</b></p>
+      </div>
+      <p class="caps sign">Adam &amp; Rae · 28.11.26</p>
+    </div>
+</article>
+</body></html>
